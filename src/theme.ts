@@ -4,13 +4,9 @@ export const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#519D9E',
-      //   light: '#FBFBFB',
-      //   dark: '#F3B821',
     },
     secondary: {
-      main: '#343838',
-      //   light: '#FBFBFB',
-      //   dark: '#293647',
+      main: '#FBFBFB',
     },
     text: {
       primary: '#343838',
@@ -36,9 +32,43 @@ export const theme = createMuiTheme({
       },
     },
     MuiTypography: {
+      h3: {
+        '@media(max-width: 600px)': {
+          fontSize: '1.8rem',
+        },
+      },
       subtitle1: {
         fontWeight: 'lighter',
         color: '#519D9E',
+      },
+      h6: {
+        color: '#fff',
+      },
+    },
+    MuiToolbar: {
+      root: {
+        width: '100%',
+        background: '#519D9E',
+        display: 'flex',
+        justifyContent: 'space-between',
+      },
+    },
+    MuiListItemText: {
+      root: {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+      },
+    },
+    MuiButton: {
+      containedSecondary: {
+        color: '#519D9E',
+        '&:hover': {
+          backgroundColor: '#fff',
+          opacity: 0.8,
+          transition: 'all 0.3s',
+        },
       },
     },
   },

@@ -11,7 +11,7 @@ import {
 import { CurrencySelect } from '../../components';
 
 interface ConverterViewProps {
-  result: number;
+  result: number | null;
   amount: number;
   fromCurrency: string;
   toCurrency: string;
@@ -63,7 +63,7 @@ export const ConverterView: React.FC<ConverterViewProps> = ({
           label='From'
           currencyOptions={currencyOptions}
         />
-        <IconButton color='secondary' onClick={onClickSwitch}>
+        <IconButton color='inherit' onClick={onClickSwitch}>
           <SwitchIcon />
         </IconButton>
 
@@ -87,6 +87,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       width: 260,
       height: 260,
+      margin: 'auto',
     },
     selectRow: {
       display: 'flex',

@@ -3,14 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { useGetExchangeRate, useExchangeRatesData } from '../../hooks';
 import { ConverterView } from './ConverterView';
 import { Error } from '../../components';
+import { Conversion } from '../../actions/types';
+import { addConversion } from '../../actions';
+import { connect, ConnectedProps } from 'react-redux';
 
-export const Converter = () => {
+const mapDispatchToProps = (dispatch: any) => ({
+  onAddConversion: (conversion: Omit<Conversion, 'id'>) => {
+    dispatch(addConversion(conversion));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
   const [fromCurrency, setFromCurrency] = useState<string>('');
   const [toCurrency, setToCurrency] = useState<string>('');
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const [amount, setAmount] = useState<number>(1);
-  const [exchangeRate, setExchangeRate] = useState<number>(1);
-  const [result, setResult] = useState<number>(0);
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [result, setResult] = useState<number | null>(null);
   const [isFromCurrency, setIsFromCurrency] = useState<boolean>(true);
 
   const {
@@ -72,7 +84,7 @@ export const Converter = () => {
   };
 
   const handleClickSwitch = () => {
-    setAmount(result);
+    setAmount(result || 0);
     setIsFromCurrency(!isFromCurrency);
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
@@ -85,6 +97,19 @@ export const Converter = () => {
     countResult();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFromCurrency, amount, exchangeRate]);
+
+  useEffect(() => {
+    if (result === null) {
+      return;
+    }
+
+    onAddConversion({
+      from: `${amount} ${fromCurrency}`,
+      to: `${result} ${toCurrency}`,
+      convertedAt: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   if (exchangeRatesDataError || newExchangeRateError) {
     return <Error />;
@@ -104,3 +129,5 @@ export const Converter = () => {
     />
   );
 };
+
+export const Converter = connect(null, mapDispatchToProps)(ConverterContainer);
