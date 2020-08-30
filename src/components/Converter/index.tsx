@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 
 import { useGetExchangeRate, useExchangeRatesData } from '../../hooks';
 import { ConverterView } from './ConverterView';
 import { Error } from '../../components';
 import { Conversion } from '../../actions/types';
 import { addConversion } from '../../actions';
-import { connect, ConnectedProps } from 'react-redux';
+import currencySymbols from '../../currencySymbols.json';
 
 const mapDispatchToProps = (dispatch: any) => ({
   onAddConversion: (conversion: Omit<Conversion, 'id'>) => {
@@ -24,6 +25,7 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [result, setResult] = useState<number | null>(null);
   const [isFromCurrency, setIsFromCurrency] = useState<boolean>(true);
+  const symbols = currencySymbols as { [key: string]: string };
 
   const {
     getExchangeRatesData,
@@ -122,6 +124,8 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
       fromCurrency={fromCurrency}
       toCurrency={toCurrency}
       currencyOptions={currencyOptions}
+      exchangeRate={exchangeRate}
+      currencySymbol={toCurrency ? symbols[toCurrency] : ''}
       onChangeAmount={handleChangeAmount}
       onChangeFromCurrency={handleChangeFromCurrency}
       onChangeToCurrency={handleChangeToCurrency}

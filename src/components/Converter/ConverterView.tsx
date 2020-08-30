@@ -16,6 +16,8 @@ interface ConverterViewProps {
   fromCurrency: string;
   toCurrency: string;
   currencyOptions: string[];
+  exchangeRate: number;
+  currencySymbol: string;
   onChangeAmount: (event: React.ChangeEvent<{ value: unknown }>) => void;
   onChangeFromCurrency: (event: React.ChangeEvent<{ value: unknown }>) => void;
   onChangeToCurrency: (event: React.ChangeEvent<{ value: unknown }>) => void;
@@ -28,6 +30,8 @@ export const ConverterView: React.FC<ConverterViewProps> = ({
   fromCurrency,
   toCurrency,
   currencyOptions,
+  exchangeRate,
+  currencySymbol,
   onChangeAmount,
   onChangeFromCurrency,
   onChangeToCurrency,
@@ -40,8 +44,11 @@ export const ConverterView: React.FC<ConverterViewProps> = ({
       <Typography variant='subtitle1' component='span'>
         Exchange Rate
       </Typography>
+      <Typography variant='subtitle2' component='span'>
+        {exchangeRate}
+      </Typography>
       <Typography variant='h3' component='h1'>
-        {result}
+        {`${currencySymbol} ${result}`}
       </Typography>
 
       <TextField
@@ -55,6 +62,11 @@ export const ConverterView: React.FC<ConverterViewProps> = ({
         className={classes.textFiled}
         value={amount}
         onChange={onChangeAmount}
+        InputProps={{
+          inputProps: {
+            min: 0,
+          },
+        }}
       />
       <div className={classes.selectRow}>
         <CurrencySelect

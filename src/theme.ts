@@ -33,16 +33,22 @@ export const theme = createMuiTheme({
     },
     MuiTypography: {
       h3: {
-        '@media(max-width: 600px)': {
-          fontSize: '1.8rem',
+        width: 'max-content',
+        fontSize: '1.8rem',
+        '@media(min-width: 600px)': {
+          fontSize: '3rem',
         },
+      },
+      h6: {
+        color: '#fff',
       },
       subtitle1: {
         fontWeight: 'lighter',
         color: '#519D9E',
       },
-      h6: {
-        color: '#fff',
+      subtitle2: {
+        fontWeight: 'lighter',
+        fontSize: '0.775rem',
       },
     },
     MuiToolbar: {
