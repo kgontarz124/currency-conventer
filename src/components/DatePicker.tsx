@@ -38,8 +38,12 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     datePicker: {
       position: 'absolute',
-      top: 20,
-      left: 20,
+      top: 10,
+      left: 10,
+      [theme.breakpoints.up('sm')]: {
+        top: 20,
+        left: 20,
+      },
     },
   })
 );
