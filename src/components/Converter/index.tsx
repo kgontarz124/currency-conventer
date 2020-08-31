@@ -15,9 +15,12 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
+type PropsFromRedux = ConnectedProps<typeof connector> & { date: string };
 
-const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
+const ConverterContainer: React.FC<PropsFromRedux> = ({
+  onAddConversion,
+  date,
+}) => {
   const [fromCurrency, setFromCurrency] = useState<string>('');
   const [toCurrency, setToCurrency] = useState<string>('');
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
@@ -27,11 +30,10 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
   const [isFromCurrency, setIsFromCurrency] = useState<boolean>(true);
   const symbols = currencySymbols as { [key: string]: string };
 
-  const {
-    getExchangeRatesData,
-    exchangeRatesDataError,
-  } = useExchangeRatesData();
-  const { getNewExchangeRate, newExchangeRateError } = useGetExchangeRate();
+  const { getExchangeRatesData, exchangeRatesDataError } = useExchangeRatesData(
+    date
+  );
+  const { getNewExchangeRate, newExchangeRateError } = useGetExchangeRate(date);
 
   useEffect(() => {
     (async () => {
@@ -46,7 +48,7 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
       setExchangeRate(initialRate);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [date]);
 
   const handleChangeFromCurrency = async (
     event: React.ChangeEvent<{ value: unknown }>
@@ -109,6 +111,7 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
       from: `${amount} ${fromCurrency}`,
       to: `${result} ${toCurrency}`,
       convertedAt: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+      date,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result]);
@@ -119,7 +122,7 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({ onAddConversion }) => {
 
   return (
     <ConverterView
-      result={result}
+      result={result || 0}
       amount={amount}
       fromCurrency={fromCurrency}
       toCurrency={toCurrency}

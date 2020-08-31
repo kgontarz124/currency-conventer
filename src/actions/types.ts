@@ -7,6 +7,7 @@ export interface Conversion {
   from: string;
   to: string;
   convertedAt: string;
+  date: string;
 }
 
 export interface AddConversionAction {

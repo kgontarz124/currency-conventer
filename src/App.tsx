@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
 
-import { Converter, LatestConversions } from './components';
+import { Converter, LatestConversions, DatePicker } from './components';
 
 const App = () => {
+  var today = new Date();
+  var isoDateTime = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000
+  ).toISOString();
+  const todayDate = isoDateTime.slice(0, 10);
+  const [date, setDate] = useState(todayDate);
   const classes = useStyles();
-
+  const handleChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(event.target.value);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.line} />
-      <Converter />
+      <DatePicker
+        date={date}
+        onChangeDate={handleChangeDate}
+        todayDate={todayDate}
+      />
+      <Converter date={date} />
       <LatestConversions />
     </div>
   );
@@ -26,6 +39,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       flexDirection: 'column',
+      position: 'relative',
     },
     line: {
       width: '100%',

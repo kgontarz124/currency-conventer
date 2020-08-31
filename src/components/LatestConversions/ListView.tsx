@@ -36,7 +36,7 @@ export const ListView: React.FC<ListViewProps> = ({
 
   return (
     <List className={classes.list}>
-      {conversions.map(({ id, from, to, convertedAt }: Conversion) => {
+      {conversions.map(({ id, from, to, convertedAt, date }: Conversion) => {
         const labelId = `checkbox-list-label-${id}`;
         const onDelete = () => onDeleteConversion(id);
 
@@ -48,9 +48,20 @@ export const ListView: React.FC<ListViewProps> = ({
                 primary={
                   <>
                     <Typography variant='subtitle1' component='span'>
-                      Converted:
+                      Conversion Date:
                     </Typography>
                     &nbsp;{convertedAt}
+                  </>
+                }
+              />
+              <ListItemText
+                id={labelId}
+                primary={
+                  <>
+                    <Typography variant='subtitle1' component='span'>
+                      For Date:
+                    </Typography>
+                    &nbsp;{date}
                   </>
                 }
               />
@@ -86,7 +97,7 @@ const useStyles = makeStyles((theme) =>
       overflowY: 'scroll',
     },
     conversionInfoContainer: {
-      [theme.breakpoints.up('md')]: {
+      [theme.breakpoints.up('lg')]: {
         display: 'flex',
         flex: 1,
       },
