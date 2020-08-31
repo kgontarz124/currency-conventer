@@ -48,7 +48,7 @@ export const ListView: React.FC<ListViewProps> = ({
                 primary={
                   <>
                     <Typography variant='subtitle1' component='span'>
-                      Conversion Date:
+                      Created At:
                     </Typography>
                     &nbsp;{convertedAt}
                   </>
