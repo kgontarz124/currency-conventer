@@ -103,7 +103,7 @@ const ConverterContainer: React.FC<PropsFromRedux> = ({
   }, [isFromCurrency, amount, exchangeRate]);
 
   useEffect(() => {
-    if (result === null) {
+    if (result === null || !amount) {
       return;
     }
 
